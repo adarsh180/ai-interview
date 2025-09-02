@@ -21,7 +21,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 
 export function generateToken(user: User): string {
   return jwt.sign(
-    { userId: user.id, email: user.email },
+    { id: user.id, email: user.email },
     process.env.JWT_SECRET!,
     { expiresIn: '7d' }
   );
@@ -32,7 +32,7 @@ export async function verifyToken(token: string): Promise<User | null> {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
     const [rows] = await db.execute(
       'SELECT id, email, name, role, is_admin FROM users WHERE id = ?',
-      [decoded.userId]
+      [decoded.id]
     );
     return (rows as any[])[0] || null;
   } catch {

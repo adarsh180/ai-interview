@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     // Get user details from database
     const [rows] = await db.execute(
       'SELECT id, name, email, is_admin, created_at FROM users WHERE id = ?',
-      [decoded.userId]
+      [decoded.id]
     );
 
     if (!Array.isArray(rows) || rows.length === 0) {

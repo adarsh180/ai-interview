@@ -34,7 +34,7 @@ ${resumeText.substring(0, 4000)}`;
 
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
-      model: 'llama-3.1-8b-instant',
+      model: 'llama3-8b-8192',
       temperature: 0.1,
       max_tokens: 2500,
     });
@@ -207,7 +207,7 @@ Target Role: ${role} at ${company || 'Company'} (${experienceLevel} level, ${yea
 
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
-      model: 'llama-3.1-8b-instant',
+      model: 'llama3-8b-8192',
       temperature: 0.2,
       max_tokens: 2000,
     });
@@ -258,7 +258,7 @@ export async function generateInterviewQuestions(role: string, level: string = '
 
   const completion = await groq.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
-    model: 'llama-3.1-8b-instant',
+    model: 'llama3-8b-8192',
     temperature: 0.3,
   });
 
@@ -270,7 +270,7 @@ export async function evaluateAnswer(question: string, answer: string, role: str
 
   const completion = await groq.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
-    model: 'llama-3.1-8b-instant',
+    model: 'llama3-8b-8192',
     temperature: 0.2,
   });
 
@@ -282,7 +282,7 @@ export async function reviewCode(code: string, language: string, problem: string
 
   const completion = await groq.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
-    model: 'llama-3.1-8b-instant',
+    model: 'llama3-8b-8192',
     temperature: 0.1,
   });
 

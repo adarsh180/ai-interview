@@ -32,7 +32,7 @@ Keep responses concise, helpful, and professional. Always maintain an encouragin
         { role: 'system', content: systemPrompt },
         { role: 'user', content: message }
       ],
-      model: 'openai/gpt-oss-120b',
+      model: 'llama3-8b-8192',
       temperature: 0.7,
       max_tokens: 500,
     });
