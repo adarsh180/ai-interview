@@ -70,15 +70,20 @@ NODE_ENV=production
 
 ## Post-Deployment Steps
 
-1. **Verify Database Connection**
-   - Visit `/api/test` to check if APIs are working
-   - Database tables will be created automatically
+1. **Initialize Database**
+   - After deployment, visit `https://your-app.vercel.app/api/init` (POST request)
+   - Or use curl: `curl -X POST https://your-app.vercel.app/api/init`
+   - This creates all necessary database tables
 
-2. **Admin Access**
+2. **Verify Database Connection**
+   - Visit `/api/test` to check if APIs are working
+   - Check Vercel function logs for any errors
+
+3. **Admin Access**
    - Login with credentials set in `ADMIN_EMAIL` and `ADMIN_PASSWORD`
    - Access admin panel at `/admin`
 
-3. **Test Features**
+4. **Test Features**
    - Upload a resume for AI analysis
    - Try mock interview feature
    - Test coding practice platform
@@ -108,9 +113,10 @@ NODE_ENV=production
 ### Common Issues
 
 1. **Database Connection Failed**
-   - Verify `DATABASE_URL` format
-   - Check database server status
-   - Ensure SSL configuration
+   - Verify `DATABASE_URL` format: `mysql://username:password@host:port/database?ssl={"rejectUnauthorized":true}`
+   - For TiDB Cloud: Ensure SSL is enabled in connection string
+   - Check database server status and whitelist Vercel IPs
+   - Example TiDB URL: `mysql://username.root:password@gateway01.region.prod.aws.tidbcloud.com:4000/database_name?ssl={"rejectUnauthorized":true}`
 
 2. **JWT Errors**
    - Verify `JWT_SECRET` is 32+ characters

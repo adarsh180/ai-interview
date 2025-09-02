@@ -12,8 +12,10 @@ export const metadata: Metadata = {
   description: 'AI-powered CV Scoring • Mock Interviews • Coding Practice',
 };
 
-// Initialize database on app start (non-blocking)
-initDB().catch(console.error);
+// Initialize database only in runtime, not during build
+if (typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
+  initDB().catch(console.error);
+}
 
 export default function RootLayout({
   children,
