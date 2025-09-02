@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 async function initDB() {
   const connection = mysql.createPool({
-    uri: process.env.DATABASE_URL || 'mysql://4QEAYcFwfCEWisn.root:jH1cHDO08Ia6udys@gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/test',
+    uri: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
     connectionLimit: 10,
   });

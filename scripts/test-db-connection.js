@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 async function testConnection() {
@@ -11,11 +12,7 @@ async function testConnection() {
   }
 
   try {
-    const connection = mysql.createPool({
-      uri: process.env.DATABASE_URL,
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-      connectionLimit: 1,
-    });
+    const connection = mysql.createPool(process.env.DATABASE_URL);
 
     // Test connection
     const [rows] = await connection.execute('SELECT 1 as test');
