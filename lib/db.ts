@@ -12,10 +12,6 @@ if (!process.env.GROQ_API_KEY) {
   throw new Error('GROQ_API_KEY environment variable is required');
 }
 
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL environment variable is required');
-}
-
 const connection = mysql.createPool(process.env.DATABASE_URL!);
 
 export default connection;
