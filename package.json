@@ -1,0 +1,56 @@
+{
+  "name": "talvio-ai-interview",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-powered interview platform with resume analysis and coding practice",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prebuild": "npm run type-check",
+    "postbuild": "echo 'Build completed successfully'",
+    "db:init": "node scripts/init-db.js",
+    "type-check": "tsc --noEmit",
+    "build:check": "node scripts/build-check.js",
+    "deploy:check": "npm run type-check && npm run build:check",
+    "test:db": "node scripts/test-db-connection.js"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.0.1",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "framer-motion": "^10.16.16",
+    "groq-sdk": "^0.3.3",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.294.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.6.5",
+    "next": "14.0.4",
+    "pdf-parse": "^1.1.1",
+    "postcss": "^8",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-dropzone": "^14.2.3",
+    "react-hot-toast": "^2.4.1",
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/js-cookie": "^3.0.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
+  }
+}
