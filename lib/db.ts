@@ -16,11 +16,7 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL environment variable is required');
 }
 
-const connection = mysql.createPool({
-  uri: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  connectionLimit: 10,
-});
+const connection = mysql.createPool(process.env.DATABASE_URL!);
 
 export default connection;
 
