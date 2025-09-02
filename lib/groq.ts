@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
 
-if (!process.env.GROQ_API_KEY) {
-  throw new Error('GROQ_API_KEY environment variable is required');
+if (typeof window === 'undefined' && process.env.NODE_ENV !== 'development' && !process.env.GROQ_API_KEY) {
+  console.warn('GROQ_API_KEY environment variable is required');
 }
 
 const groq = new Groq({

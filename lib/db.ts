@@ -1,25 +1,24 @@
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 
-// Validate required environment variables
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL environment variable is required');
-}
-if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
-  throw new Error('JWT_SECRET must be at least 32 characters long');
-}
-if (!process.env.GROQ_API_KEY) {
-  throw new Error('GROQ_API_KEY environment variable is required');
+let connection: any = null;
+
+function getConnection() {
+  if (!connection && process.env.DATABASE_URL) {
+    connection = mysql.createPool(process.env.DATABASE_URL);
+  }
+  return connection;
 }
 
-const connection = mysql.createPool(process.env.DATABASE_URL!);
-
-export default connection;
+export default { execute: (...args: any[]) => getConnection()?.execute(...args) };
 
 // Initialize database tables
 export async function initDB() {
   try {
-    await connection.execute(`
+    const conn = getConnection();
+    if (!conn) throw new Error('Database connection not available');
+    
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
@@ -32,19 +31,19 @@ export async function initDB() {
     `);
 
     // Add is_admin column if it doesn't exist
-    await connection.execute(`
+    await conn.execute(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN DEFAULT FALSE
     `);
 
     // Create admin user if not exists
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@talvio.com';
     const adminPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin123!', 12);
-    await connection.execute(`
+    await conn.execute(`
       INSERT IGNORE INTO users (email, password, name, role, is_admin)
       VALUES (?, ?, 'Admin', 'admin', TRUE)
     `, [adminEmail, adminPassword]);
 
-    await connection.execute(`
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS resumes (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -57,7 +56,7 @@ export async function initDB() {
       )
     `);
 
-    await connection.execute(`
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS interviews (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -75,7 +74,7 @@ export async function initDB() {
       )
     `);
 
-    await connection.execute(`
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS problems (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -94,7 +93,7 @@ export async function initDB() {
       )
     `);
 
-    await connection.execute(`
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS coding_sessions (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -110,7 +109,7 @@ export async function initDB() {
       )
     `);
 
-    await connection.execute(`
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS proctoring_logs (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
